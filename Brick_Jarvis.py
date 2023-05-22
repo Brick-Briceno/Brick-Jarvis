@@ -18,15 +18,15 @@ def hablar(texto):
     repr.play()
     #repr.stop() #sirve para pausar la reproducción xd
 
-
-openai.api_key = "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"
+openai.api_key = "sk-5AskfZc7v1xkgL6hKelnOBC1z0OojT3BlbkFJd3w08toY72C"
 
 def pensar(pregunta): #esto genera el texto
     completion = openai.Completion.create(engine="text-davinci-003", prompt=pregunta, max_tokens=4000)
     return completion.choices[0].text
+try:
+    hablar("Hola! Bienvenido!!!")
+except: None
 
-hablar("Hola! Bienvenido!!!")
- 
 print("""Bienvenido!!!
 
 Soy una interfaz de preguntas creada por @Brick_Briceno ¿en que puedo ayudarte? :D
@@ -56,16 +56,28 @@ while True:
     
     elif pregunta == "copiar":
         Copiar(respuesta)
-        print("Copiado!")
+        print("Texto Copiado!")
 
     elif pregunta == "voz":
         voz = not(voz)
+        if voz:
+            print("Voz activada")
+        else:
+            print("Voz desactivada")
+        try:
+            repr.stop()
+        except: None
 
     else:
         try:
             respuesta = pensar(pregunta)
             if voz:
-                hablar(respuesta)
-            print("IA:" + respuesta + "\n")
+                try:
+                    hablar(respuesta)
+                except None:
+                    print("Olvidé como hablar, lo siento")
+                    voz = not(voz)
+                    print("Voz desactivada")
+            print("\nIA:" + respuesta + "\n")
         except:
             print("\nOh hubo un error :(\nIntente una vez más! :D")#esto por si hay un error en el servidor
